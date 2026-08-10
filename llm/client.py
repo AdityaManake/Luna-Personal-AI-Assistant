@@ -11,5 +11,7 @@ except ConnectionError as e:
     print("\nPossible fixes:")
     print("1. Ensure Ollama is installed and running.")
     print("2. Check that Ollama is accessible at the expected URL.")
+except ollama.ModelNotFoundError:
+    print("The specified model 'qwen3.5:4b' is not found.")
 except Exception as e:
     print(f"An error occurred: {e}")
