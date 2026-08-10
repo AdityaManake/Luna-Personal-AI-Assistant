@@ -1,0 +1,49 @@
+# ── LLM / Ollama client (Phase 3-6) ──
+ollama
+requests
+pydantic
+ 
+# ── Tool integrations ──
+#spotipy              # Phase 7 - Spotify Web API
+#keyring               # Phase 7 - secure token storage (Windows Credential Manager)
+ 
+# ── Memory / DB (Phase 8) ──
+#sqlalchemy
+ 
+# ── Speech-to-text (Phase 9) ──
+#faster-whisper
+#sounddevice
+#webrtcvad
+numpy
+ 
+# ── Text-to-speech (Phase 10) ──
+#piper-tts
+ 
+# ── Windows / system automation (Phase 12) ──
+#psutil
+#pycaw
+#comtypes             # pycaw dependency on Windows
+#screen-brightness-control
+#pywin32               # os-level Windows APIs (window handles, etc.)
+ 
+# ── Browser automation (Phase 13) ──
+#playwright
+ 
+# ── GPU / resource monitoring (Phase 14) ──
+#pynvml                # nvidia-smi stats from Python (VRAM/GPU util)
+ 
+# ── Vision (Phase 15) ──
+#mss                   # screenshot capture
+#pillow                # image handling
+#pytesseract           # OCR (needs Tesseract binary installed separately)
+ 
+# ── Config / secrets (throughout) ──
+#python-dotenv
+#pyyaml
+ 
+# ── Testing (Phase 16) ──
+#pytest
+#pytest-mock
+ 
+# ── Logging (Phase 17, stdlib logging is enough, this just formats it) ──
+#python-json-logger
