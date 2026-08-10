@@ -3,9 +3,11 @@ import ollama
 try:
     response = ollama.generate(
         model='qwen3.5:4b',
-        prompt='Hello, how are you?'
+        prompt='Hey, how are you?'
     )
     print(response.response)
+except ollama.ModelNotFoundError:
+    print("The specified model 'qwen3.5:4b' is not found.")
 except Exception as e:
     print(f"An error occurred: {e}")
     print("\nPossible fixes:")
