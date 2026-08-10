@@ -1,0 +1,24 @@
+#temperature: Controls randomness (0.2 = precise/focused, 0.7 = creative).
+#max_tokens: Max length of response (limits verbosity).
+#keep_alive: Time to keep the model loaded after inactivity.
+
+default_mode: "normal"
+
+modes:
+  normal:
+    model: "qwen3.5:4b"
+    context_size: 4096
+    temperature: 0.5
+    max_tokens: 2048
+    keep_alive: "3m"
+
+  saver:
+    model: "qwen3.5:4b"
+    context_size: 4096
+    temperature: 0.3
+    max_tokens: 768
+    keep_alive: "1m"
+
+vision:
+  model: "qwen3.5:4b"
+  temperature: 0.2

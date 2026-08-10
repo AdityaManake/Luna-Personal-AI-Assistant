@@ -1,17 +1,57 @@
 import ollama
+from typing import List, Dict, Generator
+import os 
+from dotenv import load_dotenv
 
-try:
-    response = ollama.generate(
-        model='qwen3.5:4b',
-        prompt='Hey, how are you?'
-    )
-    print(response.response)
-except ConnectionError as e:
-    print(f"Failed to connect to Ollama: {e}")
-    print("\nPossible fixes:")
-    print("1. Ensure Ollama is installed and running.")
-    print("2. Check that Ollama is accessible at the expected URL.")
-except ollama.ModelNotFoundError:
-    print("The specified model 'qwen3.5:4b' is not found.")
-except Exception as e:
-    print(f"An error occurred: {e}")
+load_dotenv(override=True)
+
+class OllamaLuna:
+    def __init__(self, model:str = None , host: str = None):
+        self.host = os.getenv("OLLAMA_HOST").strip()
+        self.model = os.getenv("OLLAMA_MODEL").strip()
+        if not self.host or not self.model:
+            raise ValueError("OLLAMA_HOST and OLLAMA_MODEL must be set in .env file")
+        self.client = ollama.Client(host=self.host)
+        
+    def stream_chat(self, messages: List[Dict[str, str]]) -> Generator[str, None, None]:
+        """Streams responses from the Ollama model in chunks."""
+        try:
+            response = self.client.chat(
+                model = self.model,
+                messages = messages,
+                stream = True,
+                think = False
+            )
+
+            for chunk in response:
+                yield chunk.message.content
+        except Exception as e:
+            yield f"Error: {e}"
+
+def continuous_chat():
+    llm = OllamaLuna()
+    messages = [{"role": "system","content":"You are a helpful and concise AI assistant."}]
+
+    print("Chatbot initialized! Type 'exit' or 'quit' to stop.\n")
+
+    while True:
+        user_input = input("You: ")
+        if user_input.lower() in ['exit' ,'quit']:
+            print("Goodbye!")
+            break
+        
+        messages.append({"role": "user", "content":user_input})
+
+        print("\nLuna: ", end="", flush=True)
+        assistant_reply = ""
+
+        for chunk in llm.stream_chat(messages):
+            print(chunk, end="", flush=True)
+            assistant_reply += chunk
+
+        print("\n")
+        messages.append({"role": "assistant", "content": assistant_reply})
+        
+if __name__ == "__main__":
+    continuous_chat()
+   
