@@ -1,14 +1,18 @@
 import ollama
 from typing import List, Dict, Generator
-import os 
 from dotenv import load_dotenv
+import sys 
+from pathlib import Path
+sys.path.append(str(Path(__file__).resolve().parent.parent))
+from config.settings import load_settings
 
 load_dotenv(override=True)
 
 class OllamaLuna:
     def __init__(self, model:str = None , host: str = None):
-        self.host = os.getenv("OLLAMA_HOST").strip()
-        self.model = os.getenv("OLLAMA_MODEL").strip()
+        settings = load_settings()
+        self.host = settings.ollama_host
+        self.model = settings.models.modes[settings.models.default_mode].model
         if not self.host or not self.model:
             raise ValueError("OLLAMA_HOST and OLLAMA_MODEL must be set in .env file")
         self.client = ollama.Client(host=self.host)
@@ -30,7 +34,8 @@ class OllamaLuna:
 
 def continuous_chat():
     llm = OllamaLuna()
-    messages = [{"role": "system","content":"You are a helpful and concise AI assistant."}]
+    messages = [{"role": "system","content":"You are Luna, a highly capable, friendly, and concise personal AI assistant. "
+        "When asked who you are or what your name is, always identify yourself as Luna."}]
 
     print("Chatbot initialized! Type 'exit' or 'quit' to stop.\n")
 
