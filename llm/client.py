@@ -6,7 +6,12 @@ from pathlib import Path
 sys.path.append(str(Path(__file__).resolve().parent.parent))
 from config.settings import load_settings
 
+
 load_dotenv(override=True)
+
+if hasattr(sys.stdout, 'reconfigure'):
+    sys.stdout.reconfigure(encoding='utf-8')
+
 
 class OllamaLuna:
     def __init__(self, model:str = None , host: str = None):
